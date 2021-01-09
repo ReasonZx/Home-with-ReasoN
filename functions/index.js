@@ -42,25 +42,25 @@ const USER_ID = '123';
 exports.login = functions.https.onRequest((request, response) => {
   if (request.method === 'GET') {
     functions.logger.log('Requesting login page');
-    functions.logger.log(path.join(__dirname,'/src'));
-    response.sendFile('test.html', { root: path.join(__dirname,'src') });
+    response.redirect('https://lasthome-869f7.web.app/login');
+    //response.sendFile('test.html', { root: path.join(__dirname,'src') });
     //response.status(200).sendFile('login.html');
     //response.status(403).send("Sorry! You can't see that.")
     //functions.logger.log(path.join(__dirname, '../public', 'test.html'));
-  //   response.send(`
-  //   <html>
-  //     <meta name="viewport" content="width=device-width, initial-scale=1">
-  //     <body>
-  //       <form action="/login" method="post">
-  //         <input type="hidden"
-  //           name="responseurl" value="${request.query.responseurl}" />
-  //         <button type="submit" style="font-size:14pt">
-  //           Link this service to Google
-  //         </button>
-  //       </form>
-  //     </body>
-  //   </html>
-  // `);
+    // response.send(`
+    // <html>
+    //   <meta name="viewport" content="width=device-width, initial-scale=1">
+    //   <body>
+    //     <form action="/login" method="post">
+    //       <input type="hidden"
+    //         name="responseurl" value="${request.query.responseurl}" />
+    //       <button type="submit" style="font-size:14pt">
+    //         Link this service to Google
+    //       </button>
+    //     </form>
+    //   </body>
+    // </html>
+    //`);
   } else if (request.method === 'POST') {
     // Here, you should validate the user account.
     // In this sample, we do not do that.
