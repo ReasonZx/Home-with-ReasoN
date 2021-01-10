@@ -41,8 +41,10 @@ const USER_ID = '123';
 
 exports.login = functions.https.onRequest((request, response) => {
   if (request.method === 'GET') {
-    functions.logger.log('Requesting login page');
-    response.redirect('https://lasthome-869f7.web.app/login');
+    functions.logger.log(`Requesting login page ${path.join(__dirname, '../public', '/login', '/login2.html')}`);
+    //response.redirect('https://lasthome-869f7.web.app/login');
+    response.append('script', '/src/login/firebase.js');
+    response.sendFile(path.join(__dirname, '/src', '/login', '/login2.html'));
     //response.sendFile('test.html', { root: path.join(__dirname,'src') });
     //response.status(200).sendFile('login.html');
     //response.status(403).send("Sorry! You can't see that.")
@@ -60,7 +62,7 @@ exports.login = functions.https.onRequest((request, response) => {
     //     </form>
     //   </body>
     // </html>
-    //`);
+    // `);
   } else if (request.method === 'POST') {
     // Here, you should validate the user account.
     // In this sample, we do not do that.
