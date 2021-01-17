@@ -38,50 +38,10 @@ const homegraph = google.homegraph({
 // Hardcoded user ID
 const USER_ID = '123';
 
-
-exports.login = functions.https.onRequest((request, response) => {
-  if (request.method === 'GET') {
-    functions.logger.log(`Requesting login page ${path.join(__dirname, '../public', '/login', '/login2.html')}`);
-    //response.redirect('https://lasthome-869f7.web.app/login');
-    response.append('script', '/src/login/firebase.js');
-    response.sendFile(path.join(__dirname, '/src', '/login', '/login2.html'));
-    //response.sendFile('test.html', { root: path.join(__dirname,'src') });
-    //response.status(200).sendFile('login.html');
-    //response.status(403).send("Sorry! You can't see that.")
-    //functions.logger.log(path.join(__dirname, '../public', 'test.html'));
-    // response.send(`
-    // <html>
-    //   <meta name="viewport" content="width=device-width, initial-scale=1">
-    //   <body>
-    //     <form action="/login" method="post">
-    //       <input type="hidden"
-    //         name="responseurl" value="${request.query.responseurl}" />
-    //       <button type="submit" style="font-size:14pt">
-    //         Link this service to Google
-    //       </button>
-    //     </form>
-    //   </body>
-    // </html>
-    // `);
-  } else if (request.method === 'POST') {
-    // Here, you should validate the user account.
-    // In this sample, we do not do that.
-    const responseurl = decodeURIComponent(request.body.responseurl);
-    functions.logger.log(`Redirect to ${responseurl}`);
-    return response.redirect(responseurl);
-  } else {
-    // Unsupported method
-    response.send(405, 'Method Not Allowed');
-  }
-});
-
 exports.fakeauth = functions.https.onRequest((request, response) => {
-  const responseurl = util.format('%s?code=%s&state=%s',
-      decodeURIComponent(request.query.redirect_uri), 'xxxxxx',
-      request.query.state);
-  functions.logger.log(`Set redirect as ${responseurl}`);
-  return response.redirect(
-      `/login?responseurl=${encodeURIComponent(responseurl)}`);
+  const responseurl = util.format('%s?code=%s&state=%s', decodeURIComponent(request.query.redirect_uri), 'xxxxxx', request.query.state);
+  functions.logger.log(`Set redirect as https://lasthome-869f7.web.app/login?responseurl=${responseurl}`);
+  return response.redirect(`https://lasthome-869f7.web.app/login?responseurl=${encodeURIComponent(responseurl)}`);
 });
 
 exports.faketoken = functions.https.onRequest((request, response) => {

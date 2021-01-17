@@ -19,11 +19,17 @@
 /**
  * @return {!Object} The FirebaseUI config.
  */
+
+
+var res = null;
+
+
 function getUiConfig() {
     return {
       'callbacks': {
         // Called when the user has been successfully signed in.
         'signInSuccessWithAuthResult': function(authResult, redirectUrl) {
+
           if (authResult.user) {
             handleSignedInUser(authResult.user);
           }
@@ -32,18 +38,20 @@ function getUiConfig() {
                 authResult.additionalUserInfo.isNewUser ?
                 'New User' : 'Existing User';
           }
-          // Do not redirect.
+          if(res[1] != null){
+            console.log(res[1]);
+            window.location.replace(decodeURIComponent(res[1]));
+          }
           return false;
         }
       },
       // Opens IDP Providers sign-in flow in a popup.
-      'signInFlow': 'popup',
+      'signInFlow': 'redirect',
       'signInOptions': [
-        // TODO(developer): Remove the providers you don't need for your app.
         {
           provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
           // Required to enable ID token credentials for this provider.
-          clientId: CLIENT_ID
+          clientId: '569340367330-96sstq7p4mdl2jlfoebpn334c1de3dj4.apps.googleusercontent.com'
         },
         {
           provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -54,8 +62,6 @@ function getUiConfig() {
             'user_friends'
           ]
         },
-        firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        firebase.auth.GithubAuthProvider.PROVIDER_ID,
         {
           provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
           // Whether the display name should be displayed in Sign Up page.
@@ -68,20 +74,12 @@ function getUiConfig() {
             size: getRecaptchaMode()
           },
         },
-        {
-          provider: 'microsoft.com',
-          loginHintKey: 'login_hint'
-        },
-        {
-          provider: 'apple.com',
-        },
-        firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
       ],
-      // Terms of service url.
-      'tosUrl': 'https://www.google.com',
-      // Privacy policy url.
-      'privacyPolicyUrl': 'https://www.google.com',
-      'credentialHelper': CLIENT_ID && CLIENT_ID != 'YOUR_OAUTH_CLIENT_ID' ?
+      // Terms of service url. //TODO 
+      'tosUrl': 'https://www.google.com/search?q=tos&oq=tos&aqs=chrome..69i57j0i457j46i199i291j0j46j0i395l2j46i395.2104j1j9&sourceid=chrome&ie=UTF-8',
+      // Privacy policy url. //TODO
+      'privacyPolicyUrl': 'https://www.google.com/search?sxsrf=ALeKk01WSkWm_Bnew0eD9DZ9KHnMVCwdow%3A1610829504448&ei=wE4DYJbmGvOAhbIP2p-MOA&q=privacy+policy&oq=priva&gs_lcp=CgZwc3ktYWIQARgAMgQIIxAnMgQIIxAnMgUIABCRAjICCAAyAggAMgIIADICCAAyAggAMgIIADICCC46BAgAEEc6CAgAEMkDEJECOggILhDHARCjAjoECAAQQzoICC4QxwEQrwE6BQgAEMkDUJv0AVjb_gFglYoCaAFwA3gAgAGLAYgBvwWSAQMwLjaYAQCgAQGqAQdnd3Mtd2l6yAEIwAEB&sclient=psy-ab',
+      'credentialHelper': CLIENT_ID && CLIENT_ID != '569340367330-96sstq7p4mdl2jlfoebpn334c1de3dj4.apps.googleusercontent.com' ?
           firebaseui.auth.CredentialHelper.GOOGLE_YOLO :
           firebaseui.auth.CredentialHelper.NONE
     };
@@ -92,13 +90,11 @@ function getUiConfig() {
   // Disable auto-sign in.
   ui.disableAutoSignIn();
   
-  
   /**
    * @return {string} The URL of the FirebaseUI standalone widget.
    */
   function getWidgetUrl() {
-    return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' +
-        getEmailSignInMethod();
+    return '/widget#recaptcha=' + getRecaptchaMode() + '&emailSignInMethod=' + getEmailSignInMethod();
   }
   
   
@@ -181,33 +177,10 @@ function getUiConfig() {
     });
   };
   
-  
-  /**
-   * Handles when the user changes the reCAPTCHA or email signInMethod config.
-   */
-  function handleConfigChange() {
-    var newRecaptchaValue = document.querySelector(
-        'input[name="recaptcha"]:checked').value;
-    var newEmailSignInMethodValue = document.querySelector(
-        'input[name="emailSignInMethod"]:checked').value;
-    location.replace(
-        location.pathname + '#recaptcha=' + newRecaptchaValue +
-        '&emailSignInMethod=' + newEmailSignInMethodValue);
-  
-    // Reset the inline widget so the config changes are reflected.
-    ui.reset();
-    ui.start('#firebaseui-container', getUiConfig());
-  }
-  
-  
   /**
    * Initializes the app.
    */
   var initApp = function() {
-    document.getElementById('sign-in-with-redirect').addEventListener(
-        'click', signInWithRedirect);
-    document.getElementById('sign-in-with-popup').addEventListener(
-        'click', signInWithPopup);
     document.getElementById('sign-out').addEventListener('click', function() {
       firebase.auth().signOut();
     });
@@ -215,25 +188,14 @@ function getUiConfig() {
         'click', function() {
           deleteAccount();
         });
-  
-    document.getElementById('recaptcha-normal').addEventListener(
-        'change', handleConfigChange);
-    document.getElementById('recaptcha-invisible').addEventListener(
-        'change', handleConfigChange);
-    // Check the selected reCAPTCHA mode.
-    document.querySelector(
-        'input[name="recaptcha"][value="' + getRecaptchaMode() + '"]')
-        .checked = true;
-  
-    document.getElementById('email-signInMethod-password').addEventListener(
-        'change', handleConfigChange);
-    document.getElementById('email-signInMethod-emailLink').addEventListener(
-        'change', handleConfigChange);
-    // Check the selected email signInMethod mode.
-    document.querySelector(
-        'input[name="emailSignInMethod"][value="' + getEmailSignInMethod() + '"]')
-        .checked = true;
+    var CurrentPage = window.location.href;
+    console.log("Current page is:", CurrentPage);
+
+    res = CurrentPage.split("responseurl=");
+
+    console.log("Response url:",res[1]);
   };
-  
+
+
   window.addEventListener('load', initApp);
   
