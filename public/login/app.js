@@ -58,8 +58,6 @@ function getUiConfig() {
           scopes :[
             'public_profile',
             'email',
-            'user_likes',
-            'user_friends'
           ]
         },
         {
