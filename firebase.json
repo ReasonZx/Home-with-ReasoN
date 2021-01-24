@@ -6,8 +6,8 @@
     "source": "HwR_backend"
   },
   "hosting": {
-    "site": "lasthome-869f7",
-    "public": "public",
+    "site": "homewithreason",
+    "public": "public/Home-with-ReasoN",
     "rewrites": [{
       "source": "/requestsync",
       "function": "requestsync"

@@ -12,15 +12,17 @@
  * limitations under the License.
  */
 
+
 var config = {
-    apiKey: "AIzaSyCkGpIs7lWUg7bTvUPO2s8S3rOgnOxSE5A",
-    authDomain: "lasthome-869f7.firebaseapp.com",
-    databaseURL: "https://lasthome-869f7.firebaseio.com",
-    projectId: "lasthome-869f7",
-    storageBucket: "lasthome-869f7.appspot.com",
-    messagingSenderId: "569340367330"
-  };
-  firebase.initializeApp(config);
-  
-  var CLIENT_ID =
-      'null';
+  apiKey: "AIzaSyD6LCnf4sG2qntDe5r2WX6hXIjuhZd5j2Y",
+  authDomain: "homewithreason.firebaseapp.com",
+  databaseURL: "https://homewithreason-default-rtdb.firebaseio.com",
+  projectId: "homewithreason",
+  storageBucket: "homewithreason.appspot.com",
+  messagingSenderId: "59152067127",
+}
+
+firebase.initializeApp(config);
+
+var CLIENT_ID =
+    'null';
