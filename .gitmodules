@@ -1,3 +1,6 @@
 [submodule "HwR_backend"]
 	path = HwR_backend
 	url = https://github.com/ReasonZx/HwR_backend.git
+[submodule "HwR_devices"]
+	path = HwR_devices
+	url = https://github.com/ReasonZx/HwR_devices.git
